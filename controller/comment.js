@@ -16,27 +16,31 @@ module.exports={
         await AddedComment.save()
         res.json(new appSuccess(AddedComment))
     },
-    getSingleproduct:async(req,res,next)=>{
-        const singleproduct= await Product.findById(req.params.id)
-        if(!singleproduct){
-            return res.json(new appFail('params is fault'))
-        }
-        res.json(new appSuccess(singleproduct))
-    },
-    deletedProduct:async(req,res,next)=>{
-        const singleproduct= await Product.findByIdAndDelete(req.params.id)
-        if(!singleproduct){
-            return res.json(new appFail('params is fault'))
-        }
-        res.json(new appSuccess(singleproduct))
 
-    },
-    updatProduct:async(req,res,next)=>{
-        const singleproduct=await Product.findByIdAndUpdate
-        (req.params.id,req.body,{returnDocument:"after"})
-        if(!singleproduct){
+    deletedcomment:async(req,res,next)=>{
+const singleComment=await comments.findById(req.params.id)
+        if(!singleComment){
             return res.json(new appFail('params is fault'))
         }
-        res.json(new appSuccess(singleproduct))
+        if(singleComment.userId.toString()!=req.user._id.toString()){
+            return res.json(new appFail('not authorized!!!!!'))
+        }
+        const deletedcomment= await comments.findByIdAndDelete(req.params.id)
+
+        res.json(new appSuccess(deletedcomment))
+    },
+    updatcomment:async(req,res,next)=>{
+const singleComment=await comments.findById(req.params.id)
+
+        if(!singleComment){
+            return res.json(new appFail('params is fault'))
+        }
+        if(singleComment.userId.toString()!=req.user._id.toString()){
+            return res.json(new appFail('not authorized!!!!!'))
+        }
+        const updatedComment=await comments.findByIdAndUpdate
+        (req.params.id,{comment:req.body.comment},{returnDocument:"after"})
+
+        res.json(new appSuccess(updatedComment))
     }
 }

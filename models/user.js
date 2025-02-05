@@ -8,6 +8,6 @@ const userSchema= new mongoose.Schema({
             validator:(value)=>{return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)}}},
      password:{type:String,required:true},
      role:{type:String,enum:["admin","customer"],default:"customer"}
-})
+},{timestamps:true,versionKey:false})
 
 module.exports=User=mongoose.model('User',userSchema)

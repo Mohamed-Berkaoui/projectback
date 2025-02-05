@@ -31,7 +31,7 @@ module.exports={
     },
     updatProduct:async(req,res,next)=>{
         const singleproduct=await Product.findByIdAndUpdate
-        (req.params.id,req.body,{returnDocument:"after"})
+        (req.params.id,req.body,{returnDocument:"after",runValidators:true})
         if(!singleproduct){
             return res.json(new appFail('params is fault'))
         }
